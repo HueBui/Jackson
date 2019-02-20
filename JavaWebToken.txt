@@ -1,0 +1,50 @@
+1.JWT: Json web token
+	- Xác thực quyền truy cập.
+	- Là 1 tiêu chuẩn mở (RFC 7519) định nghĩa cách truyền tin
+	an toàn giữa các thành viên bằng 1 đối tượng json.
+	- Thông tin này có thể được xác thực và đánh dấu tin cậy nhờ vào
+	"chữ ký" của nó. Phần chữ ký của JWT sẽ được mã hóa lại bằng HMAC hoặc RSA.
+2. Cấu trúc token
+	Header.Payload.Signature(chữ ký)
+  2.1. Header: dùng để khai báo kiểu chữ ký vào thuật toán để mã hóa sẽ dùng.
+	eg. {
+			"alg": "HS256", // chữ ký sử dụng thuật toán mã hóa HMAC SHA-256(HMAC SHA256 - HS256 hoặc RSA, MD5)
+			"typ": "JWT"   //  khai báo rằng đối tượng được mã hóa là 1 JWT(JWT,JWE)
+		}
+	--chuyển đổi thành mảng byte mới dùng được
+  ? Tìm hiểu sự khác nhau giữa base64url và base64.
+	- Không thêm = vào
+	- Các ký tự + và / sẽ được thay thế bằng - và _
+  2.2 Payload (Claims)
+	- Nơi chứa các nội dung của thông tin
+	- Gồm: Reserved, public, private.
+	eg: {
+		  “iss”: “techmaster”,
+		  “exp”: 1426420800,
+		  “https://www.techmaster.vn/jwt_claims/is_admin”: true,
+		  “user”: “paduvi”,
+		  “awesome”: true
+		}
+	2.2.1 Reserved: 
+		- Là những thông tin đã được quy định ở trong IANA JSON Web Token Claims registry. 
+			Chúng bao gồm: Chú ý rằng các khóa của claim đều chỉ dài 3 ký tự vì mục đích giảm kích thước của Token
+			iss (issuer): tổ chức phát hành token
+			sub (subject): chủ đề của token
+			aud (audience): đối tượng sử dụng token
+			exp (expired time): thời điểm token sẽ hết hạn
+			nbf (not before time): token sẽ chưa hợp lệ trước thời điểm này
+			iat (issued at): thời điểm token được phát hành, tính theo UNIX time
+			jti: JWT ID
+	2.2.2 Public: Khóa nên được quy định ở trong IANA JSON Web Token Registry hoặc là 1 URI có chứa không gian tên không bị trùng lặp.
+	eg: “https://www.techmaster.vn/jwt_claims/is_admin”: true
+	2.2.3 Private: Phần thông tin thêm dùng để truyền qua giữa các máy thành viên.
+	eg: {
+		  "sub": "1234567890",
+		  "name": "paduvi",
+		  "admin": true
+		}
+  2.3 Signature: Phần chữ ký được tạo bằng cách kết hợp 2 phần Header + Payload, rồi mã hóa nó lại bằng 1 giải thuật encode nào đó, 
+  càng phức tạp thì càng tốt, ví dụ như HMAC SHA-256
+	eg: $encodedContent = base64UrlEncode(header) + “.” + base64UrlEncode(payload);
+		$signature = hashHmacSHA256($encodedContent);
+	
