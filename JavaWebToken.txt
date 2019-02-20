@@ -47,4 +47,62 @@
   càng phức tạp thì càng tốt, ví dụ như HMAC SHA-256
 	eg: $encodedContent = base64UrlEncode(header) + “.” + base64UrlEncode(payload);
 		$signature = hashHmacSHA256($encodedContent);
-	
+		
+		
+Example:
+	1. Generate(encode)
+		public class JwtGenerator {
+	   public String generate(Student student){
+		   Claims claims = Jwts.claims()
+				   .setSubject(student.getNameStudent());
+		   claims.put("id_student",student.getIdStudent());
+		   claims.put("name_student",student.getNameStudent());
+		   claims.put("password",student.getPassword());
+		   Date date = new Date();
+		   return Jwts.builder()
+				   .setClaims(claims)
+				   .signWith(SignatureAlgorithm.HS256,"SECRET")
+				   .setIssuedAt(date)
+				   .setExpiration(new Date(date.getTime()+10000*60))
+				   .compact();
+	   }
+	}
+	2. Validate(decode)
+		public class JwtValidator {
+		private static JwtValidator instance;
+
+		private JwtValidator() {
+
+		}
+
+		public static JwtValidator getInstance() {
+			if (instance == null) {
+				instance = new JwtValidator();
+			}
+			return instance;
+		}
+
+		public Student validate(String token) {
+			Student student = null;
+			try {
+				Claims claims = Jwts.parser()
+						.setSigningKey("SECRET")
+						.parseClaimsJws(token)
+						.getBody();
+
+				student = new Student();
+
+				student.setIdStudent(Integer.parseInt(claims.get("id_student").toString()));
+				student.setNameStudent(claims.get("name_student").toString());
+				student.setPassword(claims.get("password").toString());
+
+				System.out.println(claims);
+				System.out.println(student);
+			}catch (ExpiredJwtException ejwte) {
+				System.err.println("Jwt Expired: " + ejwte);
+		}catch (Exception e) {
+				System.out.println(e);
+			}
+			return student;
+		}
+	}	
