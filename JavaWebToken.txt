@@ -47,7 +47,15 @@
   càng phức tạp thì càng tốt, ví dụ như HMAC SHA-256
 	eg: $encodedContent = base64UrlEncode(header) + “.” + base64UrlEncode(payload);
 		$signature = hashHmacSHA256($encodedContent);
-		
+3. Exception jwt	
+		3.1. AlgorithmMismatchException
+		3.2. InvalidClaimException
+		3.3. JWTCreationException
+		3.4. JWTDecodeException :if any part of the token contained an invalid jwt or JSON format of each of the jwt parts.
+		3.5. JWTVerificationException
+		3.6. SignatureGenerationException
+		3.7. SignatureVerificationException
+		3.8. TokenExpiredException
 		
 Example:
 	1. Generate(encode)

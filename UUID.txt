@@ -1,0 +1,11 @@
+1. UUID
+	- Là một chuẩn chung nhằm tạo ra các random-hash không trùng nhau(xác xuất gần bằng 0)
+	- Gồm 36 ký tự thỏa mãn [a-z0-9] và chia thành 4 nhóm bởi 4 dấy -(hyphen).
+	- Vì 1 UUID khá dài nên chúng ta chỉ lấy 7 kí tự đầu tiên và hiển thị ra ngoài (vẫn lưu đầy đủ UUID trong database).
+2. Example
+		UUID uuid = UUID.randomUUID();
+		String randomUUIDString = uuid.toString().replace("-","");
+		
+		System.out.println("Random UUID String: "+randomUUIDString);
+		System.out.println("UUID Version: "+uuid.version());
+		System.out.println("UUID variant: "+ uuid.variant());

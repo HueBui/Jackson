@@ -1,0 +1,90 @@
+1. POM: Project Object Model.
+	<project>
+		<modelVersion></modelVersion>
+		<groupId></groupId>
+		<artifactId></artifactId>
+		<packaging></packaging>
+		<version></version>
+		<name></name>
+		<url></url>
+		<dependencies>
+			<dependency>
+			<groupId></groupId>
+			<artifactId></artifactId>
+			<version></version>
+			<scope></scope>
+			</dependency>
+		</dependencies>
+		<build></build>
+	</project>
+	
+2. Dependency Injection(DI)
+	- DI is a form of IoC, where implementations are passed into
+	an object through constructors/setters/service lookups.
+	- An IoC container is a specific kind of DI.
+	- DI is a specific kind of IoC.
+3. Inversion of Control(IoC)
+	- IoC means that object do not create other object on
+	which they rely to do their work: Một object không tạo ra một
+	object khác nếu muốn sử dụng.
+	- Instead, they get the object that they need from an 
+	outside source.: Nó sử dụng các object khác thông qua việc 
+	sử dụng từ bên ngoài.
+	Ví dụ: Một các thuộc tính của một class sẽ được truyền vào thông
+	qua các hàm get/set.
+4. Constructor Injection
+	If a B object is used in a constructor of the class A this is then
+	called constructor-injection.
+	class A{
+		private B b;
+		public A(B b){
+			this.b=b;
+	}
+5. Setter Injection
+	If a B object is used in a setter of class A this is then called 
+	setter-injection
+	class A{
+		private B b;
+		public void setB(B b){
+			this.b=b;
+		}
+	}
+6. Plain Old Java Object(POJO)
+	- Plain Old Java Object is a java object not bound by any restriction
+	other than those forced by the java language specification.
+	- A POJO should not have to extend prespecified class, interface, annotations.
+7. Beans
+	- Java Beans:
+		+ Have a public default(no argument) constructor.
+		+ Allows access to properties using accessor (getter and setter) method.
+		+ Implement java.io.Serializable.
+	- Beans:
+		+ A string bean is basically an any object managed by Spring.
+		+ Instantiated, configured and managed by a Spring Framework container.
+		+ Spring beans are defined using configuration file, annotations or refences.
+	-> Spring beans khong nhat thiet la java beans.
+8. Spring Configuration.
+	- XML based configuration.
+	- Annotation-based configuration: java 5
+	- Java-based configuration: spring 4.1.
+-> Dependency injection in spring by providing a standard way of configuration
+and by managing the reference to the created object.
+9. Anotation-config
+	- is used to activate annotations in beans already registered in the application context.
+	- @Required @Autowired @PostContruct @PreDestroy @Resource
+10. Anotation-scan
+	- is used to scans packages to find and regiser beans withis the application context.
+	- @Conponent @Repository @Controller @Service @RestController @ControllerAdvice @Configuration
+11.	Stereotype Annotations
+	- Markers for any class with a role within an application.
+	- @Repository stereotype for persistence, DAO: CSDL.
+	- @Service stereotype for service.
+	- @Controller stereotype for the presentation layer(Spring MVC).
+	- @Component generic stereotype for any Spring-managed component.
+12. Spring Beans Scopes
+	- Singleton: A single object instance per Spring IoC container.
+	- Prototype: Unique per Request
+	- Request
+	- Session
+	- Global Session
+13. SOAP-RESTful

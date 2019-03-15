@@ -1,0 +1,210 @@
+I. Singleton design pattern
+1. Eager initialization:
+	public class GFG  
+	{ 
+	  // public instance initialized when loading the class 
+	  public static GFG instance = new GFG(); 
+	  
+	  private GFG() 
+	  { 
+		// private constructor 
+	  } 
+	} 
+	
+=> Đây là phương pháp đơn giản nhất để tạo một lớp singleton.
+Trong đó, đối tượng của lớp được tạo khi nó đươc JVM tải vào 
+bộ nhớ. Nó được thực hiện bằng cách gán tham chiếu một thể hiện
+trực tiếp. Nó có thể được sử dụng khi chương trình sẽ luôn sử dụng
+thể hiện của lớp này hoặc chi phí tạo cá thể không quá lớn về tài
+nguyên và thời gian.
+- Ưu điểm:
+	+ Very simple to implement: Rất đơn giản để thực hiện.
+	+ No need to implement getInstance() method. Không cần thực hiện
+	phương thức getInstance();
+	Instance can be accessed directly: Instance có thể được truy cập trực tiếp.
+- Nhược điểm:
+	+ May lead to resource wastage. Có thể dẫn đến lãng phí tài nguyên.
+	Because instance of class created always whether it is required or not.
+	Bời vì instance của lớp luôn được tạo dù có bắt buộc hay không.
+	+ CPU time is also wasted in creation of instance if it is not required
+	Thời gian CPU cũng bị lãng phí khi tạo instance nếu không cần thiết.
+	+ Exception handling is not possible: Xử lý lỗi ngoại lệ là không thể.
+
+2. Using static block.
+	public class GFG  
+	{ 
+	  // public instance 
+	  public static GFG instance; 
+	  
+	  private GFG()  
+	  { 
+		// private constructor 
+	  } 
+	  
+	  { 
+		// static block to initialize instance 
+		instance = new GFG(); 
+	  } 
+	}
+
+=> 	Đây cũng là phần phụ của khởi tạo Eager. Sự khác biệt duy nhất là đối tượng được 
+tạo trong một khối tĩnh để chúng ta có thể có quyền truy cập vào việc tạo ra nó, như xử
+lý ngoại lệ. Theo cách này cũng vậy, đối tượng được tạo tại thời điểm tải lớp.
+Nó có thể được sử dụng khi có cơ hội ngoại lệ trong việc tạo đối tượng với khởi tạo eager.
+- Pros;
+	+ Very simple to implement: Rất đơn giản để thực hiện.
+	+ No need to implement getInstance() method: Không cần thực hiện phương thức getInstance().
+	Instance can be accessed directly: Instance có thể được truy cập trực tiếp.
+- Cons:
+	+ May lead to resource wastage: có thể dẫn tới lãng phí tài nguyên.
+	Because instance of class created always whether it is required or not.
+	Bời vì instance của lớp luôn được tạo dù có bắt buộc hay không.
+	+ CPU time is also wasted in creation of instance if it is not required
+	Thời gian CPU cũng bị lãng phí khi tạo instance nếu không cần thiết.
+3. Lazy initialization
+	public class GFG  
+	{ 
+	  // private instance, so that it can be 
+	  // accessed by only by getInstance() method 
+	  private static GFG instance; 
+	  
+	  private GFG()  
+	  { 
+		// private constructor 
+	  } 
+	  
+	  //method to return instance of class 
+	  public static GFG getInstance()  
+	  { 
+		if (instance == null)  
+		{ 
+		  // if instance is null, initialize 
+		  instance = new GFG(); 
+		} 
+		return instance; 
+	  } 
+	} 
+	
+=>Trong phương thức này, đối tượng chỉ được tạo nếu cần thiết. 
+Điều này có thể ngăn ngừa lãng phí tài nguyên. Việc triển khai phương thức getInstance () 
+được yêu cầu trả về thể hiện. Có một kiểm tra null rằng nếu đối tượng không được tạo thì tạo, 
+nếu không thì trả lại được tạo trước đó. Để đảm bảo rằng lớp không thể được khởi tạo theo bất 
+kỳ cách nào khác, hàm tạo được thực hiện cuối cùng. Vì đối tượng được tạo bằng trong một phương
+thức, nó đảm bảo rằng đối tượng sẽ không được tạo cho đến khi và trừ khi được yêu cầu. Sơ thẩm 
+được giữ kín để không ai có thể truy cập trực tiếp.
+Nó có thể được sử dụng trong một môi trường luồng đơn vì nhiều luồng có thể phá vỡ 
+thuộc tính singleton vì chúng có thể truy cập đồng thời phương thức get và tạo nhiều đối tượng.
+- Pros:
+	+ Object is created only if is needed. It may overcome resource overcome and wastage of CPU tiem.
+	Đối tượng chỉ được tạo nếu cần thiết. Nó có thể khắc phục tài nguyên  và lãng phí thời gian của CPU.
+	+ Exception handling is also possible in method: Xử lý ngoại lệ cũng có thể trong phương thức.
+- Cross:
+	+ Every time a condition of null has to be checked: Mỗi khi một điều kiện của null phải được kiểm tra.
+	+ Instance can't be accessed directly: Instance không thể truy cập trực tiếp.
+4. Thread Safe Singleton
+	public class GFG  
+	{ 
+	  // private instance, so that it can be 
+	  // accessed by only by getInstance() method 
+	  private static GFG instance; 
+	  
+	  private GFG()  
+	  { 
+		// private constructor 
+	  } 
+	  
+	 //synchronized method to control simultaneous access 
+	  synchronized public static GFG getInstance()  
+	  { 
+		if (instance == null)  
+		{ 
+		  // if instance is null, initialize 
+		  instance = new GFG(); 
+		} 
+		return instance; 
+	  } 
+	} 
+=> Một luồng đơn an toàn được tạo để thuộc tính của singleton được duy trì ngay cả trong môi trường
+đa luồng. Để làm cho một luồng đơn lớp an toàn, phương thức getInstance() được thực hiện đồng bộ hóa
+để nhiều luồng có thể truy cập đồng thời.
+- Pros:
+	+ Lazy initialization is possible.
+	2. It is also thread safe.
+- Cons:
+	+ getInstance() method is synchronized so it causes slow performance as multiple threads can’t 
+	access it simultaneously.
+	phương thức getInstance() được đồng bộ hóa nên gây ra hiệu năng chậm vì nhiều luồng có thể truy cập
+	cùng lúc.
+5. Lazy initialization with Double check locking.
+	public class GFG  
+	{ 
+	  // private instance, so that it can be 
+	  // accessed by only by getInstance() method 
+	  private static GFG instance; 
+	  
+	  private GFG()  
+	  { 
+		// private constructor 
+	  } 
+	  
+	  public static GFG getInstance() 
+	  { 
+		if (instance == null)  
+		{ 
+		  //synchronized block to remove overhead 
+		  synchronized (GFG.class) 
+		  { 
+			if(instance==null) 
+			{ 
+			  // if instance is null, initialize 
+			  instance = new GFG(); 
+			} 
+			
+		  } 
+		} 
+		return instance; 
+	  } 
+	} 
+=> Trong cơ chế này, có thể khắc phục vấn đề của mã được đồng bộ hóa. Trong method getInstance()
+không được đồng bộ hóa nhưng khối tạo ra được đồng bộ hóa để số lượng luồng tối thiểu phải chờ và chỉ có lần đầu tiên đó.
+- Pros:
+	+ Lazy initialization is possible.
+	+ It is also thread safe.
+	+ Performance reduced because of synchronized keyword is overcome.
+- Cross;
+	+ First time, it can affect performance.
+As cons. of double check locking method is bearable so it can be used for high performance multi-threaded applications.
+6. Bill Pugh Singleton Implementation
+	public class GFG  
+	{ 
+	  
+	  private GFG()  
+	  { 
+		// private constructor 
+	  } 
+	  
+	  // Inner class to provide instance of class 
+	  private static class BillPughSingleton 
+	  { 
+		private static final GFG INSTANCE = new GFG(); 
+	  } 
+	  
+	  public static GFG getInstance()  
+	  { 
+		return BillPughSingleton.INSTANCE; 
+	  } 
+	} 
+Trước Java5, mô hình bộ nhớ có rất nhiều vấn đề và các phương thức trên gây ra lỗi trong các kịch bản nhất định trong môi trường đa luồng. 
+Vì vậy, Bill Pugh đã đề xuất một khái niệm về các lớp tĩnh bên trong để sử dụng cho singleton.
+Khi lớp singleton được tải, lớp bên trong không được tải và do đó không tạo đối tượng khi tải lớp. 
+Lớp bên trong chỉ được tạo khi phương thức getInstance () được gọi. Vì vậy, nó có vẻ như khởi tạo háo hức nhưng đó là khởi tạo lười biếng.
+Đây là cách tiếp cận được sử dụng rộng rãi nhất vì nó không sử dụng đồng bộ hóa.
+
+
+Về mặt chức năng: Singleton đảm bảo rằng class chỉ có duy nhất một thể hiện (hay đối tượng) được tạo ra và nó sẽ cung cấp một phương thức để bạn truy cập đến thể hiện đó.
+
+Về mặt nguyên tắc: Dù bạn thực hiện bằng cách nào đi chăng nữa thì cũng phải dựa vào các nguyên tắc sau:
+
+Constructor của class dùng Singleton Pattern phải có phạm vi truy cập là private để không thể tạo thể hiện của class từ bên ngoài.
+Khai báo private static cho tên biến của thể hiện đã tạo để đảm bảo thể hiện chỉ được tạo ra trong class đó thôi.
+Có một phương thức public để trả về thể hiện đã được tạo.

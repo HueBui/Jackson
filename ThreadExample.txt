@@ -1,0 +1,15 @@
+Công ty du lịch V quản lý thông tin là các chuyến xe. Thông tin của 2 loại chuyến xe:
+- Chuyến xe nội thành: Mã số chuyến, Họ tên tài xế, số xe, số tuyến, số km đi được, doanh thu.
+- Chuyến xe ngoại thành: Mã số chuyến, Họ tên tài xế, số xe, nơi đến, số ngày đi được, doanh thu. Thực hiện các yêu cầu sau:
+* Xây dựng các lớp với chức năng thừa kế.
+* Viết chương trình quản lý các chuyến xe theo dạng cây thừa kế với các phương thức sau:
+- Nhập, xuất danh sách các chuyến xe (danh sách có thể dùng cấu trúc mảng).
+- Tính tổng doanh thu cho từng loại xe.
+
+Sử dụng mảng hoặc ArrayList để xây dựng một queue có chứa data về lịch sử người dùng. 
+Với n Thread đẩy data vào queue và đồng thời có n thread lấy dữ lieu từ queue ra xử lý. 
+
+Nếu số lượng > 2000 yêu cầu ghi dữ liệu ra file (mỗi file sẽ  chứa 200 bản ghi du).
+Nếu số phần tử trong queue < 200 thì các thread sẽ đọc dữ liệu từ file tiếp tục xử lý 
+nếu hết thì các thread sẽ chờ trong 1 phút sau đó hoạt động trở lại. 
+Giả sử mỗi xử lý mỗi một bản ghi ta cần 200 ms.
